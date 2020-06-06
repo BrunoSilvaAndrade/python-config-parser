@@ -22,7 +22,7 @@ class Config(object):
 
         try:
             config = Schema(schema).validate(json.loads(file_buff))
-            if not isinstance(config, dict):
+            if type(config) is not dict:
                 raise ConfigException("The first config's element should be a Map")
             cls.__instance = cls.__dict_2_obj(config)
         except json.JSONDecodeError:
@@ -31,7 +31,7 @@ class Config(object):
             raise ConfigException(str(e))
     
     @classmethod
-    def __dict_2_obj(cls, data:dict):
+    def __dict_2_obj(cls, data:any):
         _type = type(data)
 
         if _type is dict:
