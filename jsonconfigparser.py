@@ -26,7 +26,7 @@ class Config(object):
                 raise ConfigException("The first config's element should be a Map")
             cls.__instance = cls.__dict_2_obj(config)
         except json.JSONDecodeError:
-            raise ConfigException("{}".format("Wasn't possible to decode the json file:{}".format(path_file)))
+            raise ConfigException("Wasn't possible to decode the json file:{}".format(path_file))
         except SchemaError as e:
             raise ConfigException(str(e))
     
