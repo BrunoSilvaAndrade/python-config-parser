@@ -12,6 +12,8 @@ For example:
 
 The model file.
 ```
+from schema import Use, And
+
 SCHEMA_CONFIG = {
     "core":{
         "logging":{
