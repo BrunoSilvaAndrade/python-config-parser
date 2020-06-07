@@ -1,5 +1,5 @@
 # python-json-config-parser
-Project created to given the possibility of create dynamics Json config files and use this using oriented object paradigm
+Project created to give the possibility of create dynamics Json config files and use this using oriented object paradigm
 
 
 HOW IT WORKS
