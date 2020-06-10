@@ -1,0 +1,8 @@
+{
+    "core":{
+        "logging":{
+            "format": "format",
+            "datefmt": "datefmt"
+        }
+    }
+}

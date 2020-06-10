@@ -66,7 +66,12 @@ except ConfigException as e:
 
 #to access your config you need just:
 logging.getLogger(__name__)
-logging.basicConfig(format=config.core.logging.format, datefmt=config.core.logging.datefmt, level=20)# look this, at this point I'm already using the config variable
+
+logging.basicConfig(
+    format=config.core.logging.format, #look this, at this point I'm already using the config variable
+    datefmt=config.core.logging.datefmt, #here again
+    level=20
+)
 
 #the list of object example:
 
