@@ -3,6 +3,7 @@
         "logging":{
             "format": "format",
             "datefmt": "datefmt"
-        }
+        },
+        "obj_list":[{"name":"bruno", "age":24}]
     }
 }

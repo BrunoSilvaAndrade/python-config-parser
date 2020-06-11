@@ -15,6 +15,8 @@ class ConfigTestCase(unittest.TestCase):
         config = Config(SIMPLE_SCHEMA_CONFIG)
         self.assertEqual(config.core.logging.format, "format")
         self.assertEqual(config.core.logging.datefmt, "datefmt")
+        self.assertEqual(config.core.obj_list[0].name, "bruno")
+        self.assertEqual(config.core.obj_list[0].age, 24)
 
     def test_access_fake_attr(self):
         config = Config(SIMPLE_SCHEMA_CONFIG)

@@ -1,6 +1,14 @@
 # python-json-config-parser
 Project created to give the possibility of create dynamics Json config files and use this using oriented object paradigm
 
+HOW TO INSTALL
+---------------------------
+Use pip to install it.
+
+```
+pip install python-json-config-parse
+```
+
 
 HOW IT WORKS
 ---------------------------

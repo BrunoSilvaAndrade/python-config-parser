@@ -35,7 +35,7 @@ class Config(object):
             with  open(path_file, "r") as f:
                 return f.read()
         except Exception as e:
-            raise 
+            raise ConfigFileOpenReadError(str(e))
     
     @classmethod
     def __dict_2_obj(cls, data:any):
@@ -44,11 +44,7 @@ class Config(object):
         if _type is dict:
             obj = object.__new__(cls)
             for key in data:
-                sub_data = data[key]
-                if type(sub_data) in (list, dict):
-                    setattr(obj, key, cls.__dict_2_obj(sub_data))
-                else:
-                    setattr(obj, key, sub_data)
+                setattr(obj, key, cls.__dict_2_obj(data[key]))
             return obj
         if _type is list:
             for i in range(len(data)):

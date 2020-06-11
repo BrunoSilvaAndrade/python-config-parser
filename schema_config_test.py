@@ -3,6 +3,7 @@ SIMPLE_SCHEMA_CONFIG = {
         "logging":{
             "format": str,
             "datefmt": str
-        }
+        },
+        "obj_list":[{"name":str, "age":int}]
     }
 }
