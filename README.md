@@ -6,7 +6,7 @@ HOW TO INSTALL
 Use pip to install it.
 
 ```
-pip install python-json-config-parse
+pip install python-json-config-parser
 ```
 
 
