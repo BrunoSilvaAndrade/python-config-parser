@@ -1,5 +1,5 @@
 # python-json-config-parser
-Project created to give the possibility of create dynamics Json config files and use this using oriented object paradigm
+This project was created to give you the possibility of creating json config files dynamicaly using OOP
 
 HOW TO INSTALL
 ---------------------------
@@ -10,11 +10,11 @@ pip install python-json-config-parser
 ```
 
 
-HOW IT WORKS
+HOW TO USE
 ---------------------------
-The Class Config takes two arguments, The first is a Schema(https://github.com/keleshev/schema) to secure the model of config, 
-the second is the str path of json config file.
-If the second argument didn't take, the default value('./config.json') is used when you call Config Class trying find this file in the same dir file where you call this Class.
+The Class Config takes two arguments, the first is a Schema(https://github.com/keleshev/schema) to secure the model of config, the second is the str path of json config file.
+
+If you don't specify the path, the default value('config.json') will be used if one exists in the same dir where the script is running.
 
 For example:
 
@@ -30,7 +30,7 @@ SCHEMA_CONFIG = {
         },
         "allowed_clients":[
             {
-                "ip":str, # <- Here you can use regex to valid the ip format
+                "ip":str, # <- Here you can use regex to validate the ip format
                 "timeout":int
             }
         ]
@@ -73,11 +73,16 @@ except ConfigException as e:
     exit()
 
 #to access your config you need just:
+
+
+fmt = config.core.logging.format #look this, at this point I'm already using the config variable
+dtfmt = config.core.logging.datefmt #here again
+
 logging.getLogger(__name__)
 
 logging.basicConfig(
-    format=config.core.logging.format, #look this, at this point I'm already using the config variable
-    datefmt=config.core.logging.datefmt, #here again
+    format=fmt,
+    datefmt=dtfmt
     level=20
 )
 
@@ -89,7 +94,7 @@ for client in config.core.allowed_clients:
 
 ```
 
-After of create the fist obj you don't need to pass the args again, you can instance of Config in other files of your project
+Instanced the first obj, you can instance Config in other files of your project
 just calling the Config without args like that:
 
 ```
