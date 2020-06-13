@@ -12,7 +12,7 @@ pip install python-json-config-parser
 
 HOW TO USE
 ---------------------------
-The Class Config takes two arguments, the first is a Schema(https://github.com/keleshev/schema) to secure the model of config, the second is the str path of json config file.
+The Class Config takes two arguments, the first is a Schema(https://github.com/keleshev/schema) to ensure the model of config, the second is the str path of json config file.
 
 If you don't specify the path, the default value('config.json') will be used if one exists in the same dir where the script is running.
 
