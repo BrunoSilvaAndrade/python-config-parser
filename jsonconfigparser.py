@@ -1,5 +1,6 @@
 import json
 from os import path
+from typing import Any
 from schema import Schema, SchemaError
 
 class Config(object):
@@ -38,18 +39,16 @@ class Config(object):
             raise ConfigFileOpenReadError(str(e))
     
     @classmethod
-    def __dict_2_obj(cls, data:any):
+    def __dict_2_obj(cls, data: Any):
         _type = type(data)
 
         if _type is dict:
             obj = object.__new__(cls)
-            for key in data:
-                setattr(obj, key, cls.__dict_2_obj(data[key]))
+            for key, value in data.items():
+                setattr(obj, key, cls.__dict_2_obj(value))
             return obj
-        if _type is list:
-            for i in range(len(data)):
-                data[i] = cls.__dict_2_obj(data[i])
-            return data
+        if _type in (list, set, tuple):
+            return list(map(lambda value: cls.__dict_2_obj(value), data))
         else:
             return data
 
