@@ -1,10 +1,12 @@
+import re
 import json
 from os import path
 from typing import Any
 from schema import Schema, SchemaError
 
 class Config(object):
-    
+    ENTITY_NAME_PATTERN = "^[\w\d_]+$"
+
     __instance = None
 
     def __new__(cls, schema:dict = None, path_file:str = "config.json"):
@@ -45,6 +47,8 @@ class Config(object):
         if _type is dict:
             obj = object.__new__(cls)
             for key, value in data.items():
+                if re.search(cls.ENTITY_NAME_PATTERN, key) is None:
+                    raise ConfigEntitiesWithWrongNameError("The json keys only must have words, number and underscores")
                 setattr(obj, key, cls.__dict_2_obj(value))
             return obj
         if _type in (list, set, tuple):
@@ -69,4 +73,7 @@ class ConfigFileOpenReadError(ConfigError):
     pass
 
 class ConfigFileNotFoundError(ConfigError):
+    pass
+
+class ConfigEntitiesWithWrongNameError(ConfigError):
     pass

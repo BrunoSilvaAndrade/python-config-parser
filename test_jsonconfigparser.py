@@ -22,3 +22,5 @@ class ConfigTestCase(unittest.TestCase):
         config = Config(SIMPLE_SCHEMA_CONFIG)
         self.assertRaises(AttributeError, lambda:config.fake_attr)
 
+if(__name__ == '__main__'):
+    unittest.main()

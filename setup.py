@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="python-json-config-parser",
-    version="1.0.7",
+    version="1.0.8",
     author="Bruno Silva de Andrade",
     author_email="brunojf.andrade@gmail.com",
     description="Project created to given the possibility of create dynamics Json config files",
