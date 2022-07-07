@@ -1,5 +1,5 @@
 import unittest
-from jsonconfigparser import *
+from configparser import *
 from schema_config_test import SIMPLE_SCHEMA_CONFIG
 
 
