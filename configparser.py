@@ -78,9 +78,9 @@ class Config(object):
     @classmethod
     def __check_schema(cls, schema):
         if schema is None:
-            raise ConfigError('The schema config can not be None')
+            raise ConfigInvalidSchemaError('The schema config can not be None')
         if type(schema) is not dict:
-            raise ConfigError('The first config\'s schema element should be a Map')
+            raise ConfigInvalidSchemaError('The first config\'s schema element should be a Map')
 
     @classmethod
     def __get_file_buff(cls, path_file: str):
@@ -121,6 +121,10 @@ class ConfigFileDecodeError(ConfigError):
 
 
 class ConfigSchemaModelError(ConfigError):
+    pass
+
+
+class ConfigInvalidSchemaError(ConfigError):
     pass
 
 
