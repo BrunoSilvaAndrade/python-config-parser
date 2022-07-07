@@ -1,22 +1,17 @@
-# python-json-config-parser
-This project was created to give you the possibility of creating json config files dynamicaly using OOP
+# python-config-parser
+This project was created to give you the possibility of creating json and yaml/yml config files dynamically using OOP
 
 HOW TO INSTALL
 ---------------------------
 Use pip to install it.
 
 ```
-pip install python-json-config-parser
+pip install python-config-parser
 ```
 
 
 HOW TO USE
 ---------------------------
-The Class Config takes two arguments, the first is a Schema(https://github.com/keleshev/schema) to ensure the model of config, the second is the str path of json config file.
-
-If you don't specify the path, the default value('config.json') will be used if one exists in the same dir where the script is running.
-
-For example:
 
 The model file.
 ```
@@ -39,29 +34,20 @@ SCHEMA_CONFIG = {
 
 ```
 
-The config.json file
+The config.yml file
 ```
-{
-    "core":{
-        "logging":{
-            "format":"[%(asctime)s][%(levelname)s]: %(message)s",
-            "datefmt": "%d-%b-%y %H:%M:%S"
-        },
-        "allowed_clients":[
-            {
-                "ip":"192.168.0.10",
-                "timeout":60
-            },
-            {
-                "ip":"192.168.0.11",
-                "timeout":100
-            }
-        ]
-    }
-}
+core:
+  logging:
+    format: "[%(asctime)s][%(levelname)s]: %(message)s"
+    datefmt: "%d-%b-%y %H:%M:%S"
+  allowed_clients:
+  - ip: 192.168.0.10
+    timeout: 60
+  - ip: 192.168.0.11
+    timeout: 100
 ```
 
-The istance of Config Class:
+The instance of Config Class:
 ```
 from jsonconfigparser import Config, ConfigException
 import logging
@@ -83,7 +69,7 @@ logging.getLogger(__name__)
 logging.basicConfig(
     format=fmt,
     datefmt=dtfmt
-    level=20
+    level=logging.INFO
 )
 
 #the list of object example:
