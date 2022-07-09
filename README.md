@@ -1,5 +1,6 @@
 # python-config-parser
-This project was created to give you the possibility of creating json and yaml/yml config files dynamically using OOP
+This project was created to give you the possibility
+of creating json and yaml/yml config files dynamically and access them using OOP
 
 HOW TO INSTALL
 ---------------------------
@@ -14,6 +15,11 @@ HOW TO USE
 ---------------------------
 
 The model file.
+You may use or not schema validation, if you want to use it, it will validate your whole config object before returning it.
+
+If you don't want to use it, it won't validate the config object before returning that, and it may generate runtime access inconsistencies.
+
+How to use schema
 ```
 from schema import Use, And
 
