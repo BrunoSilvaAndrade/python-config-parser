@@ -1,13 +1,10 @@
+from schema import Schema, SchemaError
+from typing import Any
+from os import path
+import json
+import yaml
 import os
 import re
-import yaml
-import json
-from os import path
-from typing import Any
-from schema import Schema, SchemaError
-
-
-ENTITY_NAME_PATTERN = '^[\w\d_]+$'
 
 
 def json_parser(file_buff):
@@ -25,7 +22,7 @@ def yaml_parser(file_buff):
 
 
 DEFAULT_CONFIG_FILES = ('config.json', 'config.yaml', 'config.yml')
-
+ENTITY_NAME_PATTERN = '^[\w\d_]+$'
 SUPPORTED_EXTENSIONS = {
     'json': json_parser,
     'yaml': yaml_parser,
@@ -33,10 +30,23 @@ SUPPORTED_EXTENSIONS = {
 }
 
 
-class Config(object):
+class ConfigValue:
+
+    def __getitem__(self, item):
+        return self.__dict__[item]
+
+    def __iter__(self):
+        return self.__dict__.keys().__iter__()
+
+
+class Config:
     __instance = None
 
-    def __new__(cls, schema: dict = None, config_dir: str = 'config', file_name: Any = DEFAULT_CONFIG_FILES):
+    def __new__(cls, *args, **kwargs):
+        raise RuntimeError('A instance of config is not allowed, use Config.get_config() instead')
+
+    @classmethod
+    def get_config(cls, schema: dict = None, config_dir: str = 'config', file_name: Any = DEFAULT_CONFIG_FILES):
 
         if cls.__instance is None or schema is not None:
             cls.__create_new_instance(schema, config_dir, file_name)
@@ -78,9 +88,9 @@ class Config(object):
     @classmethod
     def __check_schema(cls, schema):
         if schema is None:
-            raise ConfigInvalidSchemaError('The schema config can not be None')
+            raise ConfigError('The schema config can not be None')
         if type(schema) is not dict:
-            raise ConfigInvalidSchemaError('The first config\'s schema element should be a Map')
+            raise ConfigError('The first config\'s schema element should be a Map')
 
     @classmethod
     def __get_file_buff(cls, path_file: str):
@@ -95,11 +105,11 @@ class Config(object):
         _type = type(data)
 
         if _type is dict:
-            obj = object.__new__(cls)
+            obj = ConfigValue()
             for key, value in data.items():
                 if re.search(ENTITY_NAME_PATTERN, key) is None:
                     raise ConfigEntitiesWithWrongNameError(
-                        'The entity keys only may have words, number and underscores')
+                        f'The key {key} is invalid. The entity keys only may have words, number and underscores.')
                 setattr(obj, key, cls.__dict_2_obj(value))
             return obj
         if _type in (list, set, tuple):
@@ -121,10 +131,6 @@ class ConfigFileDecodeError(ConfigError):
 
 
 class ConfigSchemaModelError(ConfigError):
-    pass
-
-
-class ConfigInvalidSchemaError(ConfigError):
     pass
 
 
