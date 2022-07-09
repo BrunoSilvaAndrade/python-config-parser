@@ -1,22 +1,17 @@
-# python-json-config-parser
-This project was created to give you the possibility of creating json config files dynamicaly using OOP
+# python-config-parser
+This project was created to give you the possibility of creating json and yaml/yml config files dynamically using OOP
 
 HOW TO INSTALL
 ---------------------------
 Use pip to install it.
 
 ```
-pip install python-json-config-parser
+pip install python-config-parser
 ```
 
 
 HOW TO USE
 ---------------------------
-The Class Config takes two arguments, the first is a Schema(https://github.com/keleshev/schema) to ensure the model of config, the second is the str path of json config file.
-
-If you don't specify the path, the default value('config.json') will be used if one exists in the same dir where the script is running.
-
-For example:
 
 The model file.
 ```
@@ -39,35 +34,26 @@ SCHEMA_CONFIG = {
 
 ```
 
-The config.json file
+The config.yml file
 ```
-{
-    "core":{
-        "logging":{
-            "format":"[%(asctime)s][%(levelname)s]: %(message)s",
-            "datefmt": "%d-%b-%y %H:%M:%S"
-        },
-        "allowed_clients":[
-            {
-                "ip":"192.168.0.10",
-                "timeout":60
-            },
-            {
-                "ip":"192.168.0.11",
-                "timeout":100
-            }
-        ]
-    }
-}
+core:
+  logging:
+    format: "[%(asctime)s][%(levelname)s]: %(message)s"
+    datefmt: "%d-%b-%y %H:%M:%S"
+  allowed_clients:
+  - ip: 192.168.0.10
+    timeout: 60
+  - ip: 192.168.0.11
+    timeout: 100
 ```
 
-The istance of Config Class:
+The instance of Config Class:
 ```
-from jsonconfigparser import Config, ConfigException
+from pyconfigparser import Config, ConfigException
 import logging
 
 try:
-    config = Config(SCHEMA_CONFIG) # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
+    config = Config.get_config(SCHEMA_CONFIG) # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
 except ConfigException as e:
     print(e)
     exit()
@@ -83,7 +69,7 @@ logging.getLogger(__name__)
 logging.basicConfig(
     format=fmt,
     datefmt=dtfmt
-    level=20
+    level=logging.INFO
 )
 
 #the list of object example:
@@ -98,13 +84,13 @@ Instanced the first obj, you can instance Config in other files of your project
 just calling the Config without args like that:
 
 ```
-from jsonconfigparser import Config, ConfigException
+from pyconfigparser import Config, ConfigException
 
-config = Config() #At this point you already have the configuration properties in your config object
+config = Config.get_config() #At this point you already have the configuration properties in your config object
 ```
 
 
 CONTRIBUTE
 ----------
 
-Fork https://github.com/BrunoSilvaAndrade/python-json-config-parser/ , create commit and pull request to ``develop``.
+Fork https://github.com/BrunoSilvaAndrade/python-config-parser/ , create commit and pull request to ``develop``.
