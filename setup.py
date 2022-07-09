@@ -13,7 +13,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/BrunoSilvaAndrade/python-config-parser',
-    py_modules=['configparser'],
+    py_modules=['pyconfigparser'],
     install_requires=open('requirements.txt', 'r').read().split('\n'),
     classifiers=[
         'Programming Language :: Python :: 3',
