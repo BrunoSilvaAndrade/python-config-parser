@@ -71,13 +71,12 @@ class Config:
 
     @classmethod
     def __create_new_instance(cls, schema, config_dir, file_name):
-        cls.__check_schema(schema)
         file_path = cls.__get_file_path(config_dir, file_name)
         parser = cls.__get_file_parser(file_path)
         file_buff = cls.__get_file_buff(file_path)
 
         try:
-            config = Schema(schema).validate(parser(file_buff))
+            config = cls.__validate_schema(schema, parser(file_buff))
             return cls.__dict_2_obj(config)
         except SchemaError as e:
             raise ConfigError('Schema validation error', e)
@@ -103,11 +102,13 @@ class Config:
         raise ConfigFileNotFoundError(f'Config file {file_path}{file_name} was not found')
 
     @classmethod
-    def __check_schema(cls, schema):
+    def __validate_schema(cls, schema, config_obj):
         if schema is None:
-            raise ConfigError('The schema config can not be None')
-        if type(schema) is not dict:
-            raise ConfigError('The first config\'s schema element should be a Map')
+            return config_obj
+        elif type(schema) not in (dict, list):
+            raise ConfigError('The first config\'s schema element should be a Map or a List')
+
+        return Schema(schema).validate(config_obj)
 
     @classmethod
     def __get_file_buff(cls, path_file: str):

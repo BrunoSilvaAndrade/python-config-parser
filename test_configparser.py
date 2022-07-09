@@ -17,8 +17,7 @@ class ConfigTestCase(unittest.TestCase):
         self.assertRaises(RuntimeError, Config)
 
     def test_schema_checking(self):
-        self.assertRaises(ConfigError, Config.get_config)
-        self.assertRaises(ConfigError, Config.get_config, [])
+        self.assertRaises(ConfigError, Config.get_config, 1)
 
     def test_config_without_file(self):
         self.assertRaises(ConfigFileNotFoundError, Config.get_config, SIMPLE_SCHEMA_CONFIG,
@@ -27,7 +26,7 @@ class ConfigTestCase(unittest.TestCase):
 
     def test_undefined_env_var(self):
         try:
-            Config.get_config(SIMPLE_SCHEMA_CONFIG, file_name='config.yaml')
+            Config.get_config(file_name='config.yaml')
         except Exception as e:
             self.assertIn('Environment', str(e))
 
