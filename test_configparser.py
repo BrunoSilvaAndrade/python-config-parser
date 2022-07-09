@@ -1,5 +1,5 @@
 import unittest
-from configparser import *
+from pyconfigparser import *
 from config.schema_config_test import SIMPLE_SCHEMA_CONFIG
 
 
