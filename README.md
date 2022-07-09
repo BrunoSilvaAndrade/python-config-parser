@@ -49,11 +49,11 @@ core:
 
 The instance of Config Class:
 ```
-from jsonconfigparser import Config, ConfigException
+from pyconfigparser import Config, ConfigException
 import logging
 
 try:
-    config = Config(SCHEMA_CONFIG) # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
+    config = Config.get_config(SCHEMA_CONFIG) # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
 except ConfigException as e:
     print(e)
     exit()
@@ -84,13 +84,13 @@ Instanced the first obj, you can instance Config in other files of your project
 just calling the Config without args like that:
 
 ```
-from jsonconfigparser import Config, ConfigException
+from pyconfigparser import Config, ConfigException
 
-config = Config() #At this point you already have the configuration properties in your config object
+config = Config.get_config() #At this point you already have the configuration properties in your config object
 ```
 
 
 CONTRIBUTE
 ----------
 
-Fork https://github.com/BrunoSilvaAndrade/python-json-config-parser/ , create commit and pull request to ``develop``.
+Fork https://github.com/BrunoSilvaAndrade/python-config-parser/ , create commit and pull request to ``develop``.

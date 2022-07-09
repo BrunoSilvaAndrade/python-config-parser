@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='python-config-parser',
-    version='2.0.0',
+    version='2.0.1',
     author='Bruno Silva de Andrade',
     author_email='brunojf.andrade@gmail.com',
     description='Project created to given the possibility of create dynamics config files',
