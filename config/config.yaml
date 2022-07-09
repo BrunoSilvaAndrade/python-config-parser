@@ -1,0 +1,8 @@
+core:
+  logging:
+    format: format
+    datefmt: datefmt
+    level: level
+  obj_list:
+  - name: ${TEST_PYCONFIGPARSER}
+    age: 24

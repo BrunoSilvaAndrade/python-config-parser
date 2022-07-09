@@ -2,8 +2,9 @@
     "core":{
         "logging":{
             "format": "format",
-            "datefmt": "datefmt"
+            "datefmt": "${DATE_FORMAT_TEST}",
+            "level": "$LOG_LEVEL_TEST"
         },
-        "obj_list":[{"name":"bruno", "age":24}]
+        "obj_list":[{"name":"Mike", "age":24}]
     }
 }

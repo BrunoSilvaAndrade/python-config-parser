@@ -21,7 +21,8 @@ SCHEMA_CONFIG = {
     "core":{
         "logging":{
             "format": And(Use(str), lambda string: len(string) > 0),
-            "datefmt": And(Use(str), lambda string: len(string) > 0)
+            "datefmt": And(Use(str), lambda string: len(string) > 0),
+            "level": str
         },
         "allowed_clients":[
             {
@@ -40,6 +41,7 @@ core:
   logging:
     format: "[%(asctime)s][%(levelname)s]: %(message)s"
     datefmt: "%d-%b-%y %H:%M:%S"
+    level: ${LEVEL_ENV_VARIABLE}
   allowed_clients:
   - ip: 192.168.0.10
     timeout: 60
