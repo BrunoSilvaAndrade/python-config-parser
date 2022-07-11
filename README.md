@@ -1,39 +1,46 @@
 # python-config-parser
 This project was created to give you the possibility
-of creating json and yaml/yml config files dynamically and access them using OOP
+of creating runtime configuration objects using json or yaml files.
+
+MAIN FEATURES
+---------------------------
+* Declarative configurations without using .ini files
+* Access OOP or subscriptable, which means that you can iterate the config object items
+* Runtime validation using [schema](https://github.com/keleshev/schema)
+* Automatic environment variables interpolation
 
 HOW TO INSTALL
 ---------------------------
 Use pip to install it.
 
-```
+```shell
 pip install python-config-parser
 ```
-
 
 HOW TO USE
 ---------------------------
 
-The model file.
+The Schema validation.
+
 You may use or not schema validation, if you want to use it, it will validate your whole config object before returning it.
 
 If you don't want to use it, it won't validate the config object before returning that, and it may generate runtime access inconsistencies.
 
 How to use schema
-```
+
+```python
 from schema import Use, And
 
 SCHEMA_CONFIG = {
-    "core":{
-        "logging":{
-            "format": And(Use(str), lambda string: len(string) > 0),
-            "datefmt": And(Use(str), lambda string: len(string) > 0),
-            "level": str
+    'core': {
+        'logging': {
+            'format': And(Use(str), lambda string: len(string) > 0),
+            'date_fmt': And(Use(str), lambda string: len(string) > 0),
+            'random_env_variable': str
         },
-        "allowed_clients":[
-            {
-                "ip":str, # <- Here you can use regex to validate the ip format
-                "timeout":int
+        'allowed_clients': [{
+                'ip': str, # <- Here you can use regex to validate the ip format
+                'timeout': int
             }
         ]
     }
@@ -42,12 +49,12 @@ SCHEMA_CONFIG = {
 ```
 
 The config.yml file
-```
+```yaml
 core:
+  random_env_variable: ${RANDOM_ENV_VARIABLE}
   logging:
     format: "[%(asctime)s][%(levelname)s]: %(message)s"
-    datefmt: "%d-%b-%y %H:%M:%S"
-    level: ${LEVEL_ENV_VARIABLE}
+    date_fmt: "%d-%b-%y %H:%M:%S"
   allowed_clients:
   - ip: 192.168.0.10
     timeout: 60
@@ -56,13 +63,13 @@ core:
 ```
 
 The instance of Config Class:
-```
-from pyconfigparser import Config, ConfigException
+```python
+from pyconfigparser import Config, ConfigError
 import logging
 
 try:
     config = Config.get_config(SCHEMA_CONFIG) # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
-except ConfigException as e:
+except ConfigError as e:
     print(e)
     exit()
 
@@ -70,13 +77,13 @@ except ConfigException as e:
 
 
 fmt = config.core.logging.format #look this, at this point I'm already using the config variable
-dtfmt = config.core.logging.datefmt #here again
+date_fmt = config['core']['logging']['date_fmt'] #here subscriptable access
 
 logging.getLogger(__name__)
 
 logging.basicConfig(
     format=fmt,
-    datefmt=dtfmt
+    datefmt=date_fmt,
     level=logging.INFO
 )
 
@@ -86,15 +93,32 @@ for client in config.core.allowed_clients:
     print(client.ip)
     print(client.timeout)
 
-```
+    
+#The config object's parts which is not a list can also be itered but, it'll give you the attribute's names
+#So you can access the values by subscriptale access
+for logging_section_attr_key in config.core.logging:
+    print(config.core.logging[logging_section_attr_key])
 
-Instanced the first obj, you can instance Config in other files of your project
-just calling the Config without args like that:
+#Accessing the environment variable already resolved
+print(config.random_env_variable)
 
 ```
-from pyconfigparser import Config, ConfigException
+Since you've already created the first Config's instance this instance will be cached inside Config class,
+so after this first creation you can just invoke Config.get_config()
+
+```python
+from pyconfigparser import Config
 
 config = Config.get_config() #At this point you already have the configuration properties in your config object
+```
+
+You can also disable the action to cache the instance config
+
+
+```python
+from pyconfigparser import Config
+
+Config.set_hold_an_instance(False)
 ```
 
 
