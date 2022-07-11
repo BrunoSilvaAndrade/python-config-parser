@@ -1,5 +1,5 @@
 .idea/
-python_json_config_parser.egg-info/
+python_config_parser.egg-info/
 venv
 dist
 build
