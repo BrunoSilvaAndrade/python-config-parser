@@ -1,7 +1,7 @@
-import os
-import unittest
+from pyconfigparser import Config, ConfigError, ConfigFileNotFoundError, ParseException
 from config.schemas import SIMPLE_SCHEMA_CONFIG, UNSUPPORTED_OBJECT_KEYS_SCHEMA
-from pyconfigparser import Config, ConfigError, ConfigFileNotFoundError, ConfigFileDecodeError
+import unittest
+import os
 
 DT_FMT_TEST = '%Y-%m-%dT%H:%M:%SZ'
 VAR_LOG_LEVEL_INFO = 'INFO'
@@ -56,8 +56,8 @@ class ConfigTestCase(unittest.TestCase):
         self.assertRaises(ConfigError, Config.get_config, SIMPLE_SCHEMA_CONFIG, file_name='config.bad_extension')
 
     def test_bad_decoder_error(self):
-        self.assertRaises(ConfigFileDecodeError, Config.get_config, SIMPLE_SCHEMA_CONFIG, file_name='bad_content.json')
-        self.assertRaises(ConfigFileDecodeError, Config.get_config, SIMPLE_SCHEMA_CONFIG, file_name='bad_content.yaml')
+        self.assertRaises(ParseException, Config.get_config, SIMPLE_SCHEMA_CONFIG, file_name='bad_content.json')
+        self.assertRaises(ParseException, Config.get_config, SIMPLE_SCHEMA_CONFIG, file_name='bad_content.yaml')
 
 
 if __name__ == '__main__':
