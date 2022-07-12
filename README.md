@@ -1,5 +1,9 @@
 Python-config-parser
 ===
+---
+[![Tests](https://github.com/BrunoSilvaAndrade/python-config-parser/actions/workflows/tests.yml/badge.svg)](https://github.com/BrunoSilvaAndrade/python-config-parser/actions/workflows/tests.yml)
+[![PyPI version](https://badge.fury.io/py/python-config-parser.svg)](https://badge.fury.io/py/python-config-parser)
+
 This project was created to give you the possibility
 of creating runtime configuration objects using json or yaml files.
 

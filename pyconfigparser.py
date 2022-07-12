@@ -1,4 +1,4 @@
-from parsers import ParseException, json_parser, yaml_parser
+from parsers import ParseError, json_parser, yaml_parser
 from schema import Schema, SchemaError
 from typing import Any
 from os import path
@@ -78,6 +78,8 @@ class Config:
         try:
             config = cls.__validate_schema(schema, parser(file_buff))
             return cls.__dict_2_obj(config)
+        except ParseError as e:
+            raise ConfigError(e)
         except SchemaError as e:
             raise ConfigError('Schema validation error', e)
 
