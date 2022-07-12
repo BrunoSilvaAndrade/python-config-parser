@@ -1,9 +1,11 @@
-# python-config-parser
+Python-config-parser
+===
 This project was created to give you the possibility
 of creating runtime configuration objects using json or yaml files.
 
 MAIN FEATURES
----------------------------
+===
+---
 * Declarative configurations without using .ini files
 * Access OOP or subscriptable, which means that you can iterate the config object items
 * Runtime validation using [schema](https://github.com/keleshev/schema)
@@ -11,7 +13,8 @@ MAIN FEATURES
 * Automatic parser selecting by config file extension
 
 HOW TO INSTALL
----------------------------
+===
+---
 Use pip to install it.
 
 ```shell
@@ -19,23 +22,25 @@ pip install python-config-parser
 ```
 
 HOW TO USE
----------------------------
-    First of all the config file will look for default config files if you do not pass your own config file for this.
+===
+---
+First of all the config file will look for default config files if you do not pass your own config file for this.
 
-    The default config directory is ./config(if you do not pass the config directory of your preference) assuming your current directory.
+The default config directory is ./config(if you do not pass the config directory of your preference) assuming your current directory.
 
-    The default config files names are -> (config.json, config.yaml, config.yml)
+The default config files names are -> (config.json, config.yaml, config.yml)
 
 
 
 
 The Schema validation.
+---
 
-    You may use or not schema validation, if you want to use it, it will validate your whole config object before returning it.
+You may use or not schema validation, if you want to use it, it will validate your whole config object before returning it.
 
-    If you don't want to use it, it won't validate the config object before returning that, and it may generate runtime access inconsistencies.
+If you don't want to use it, it won't validate the config object before returning that, and it may generate runtime access inconsistencies.
 
-    How to use schema
+How to use schema
 
 ```python
 from schema import Use, And
@@ -155,6 +160,7 @@ Config.set_hold_an_instance(False)
 
 
 CONTRIBUTE
-----------
+---
+---
 
 Fork https://github.com/BrunoSilvaAndrade/python-config-parser/ , create commit and pull request to ``develop``.
