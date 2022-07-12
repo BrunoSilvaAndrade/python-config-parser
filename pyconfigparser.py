@@ -1,35 +1,26 @@
+from parsers import ParseException, json_parser, yaml_parser
 from schema import Schema, SchemaError
 from typing import Any
 from os import path
-import json
-import yaml
 import os
 import re
-
-
-def json_parser(file_buff):
-    try:
-        return json.loads(file_buff)
-    except json.JSONDecodeError as e:
-        raise ConfigFileDecodeError(f'Unable to decode config file using json', e)
-
-
-def yaml_parser(file_buff):
-    try:
-        return yaml.safe_load(file_buff)
-    except yaml.YAMLError as e:
-        raise ConfigFileDecodeError(f'Unable to decode config file using yaml', e)
-
 
 LINUX_KEY_VARIABLE_PATTERN = r'\$([a-zA-Z][\w]+|\{[a-zA-Z][\w]+\})$'
 DEFAULT_CONFIG_FILES = ('config.json', 'config.yaml', 'config.yml')
 ENTITY_NAME_PATTERN = r'^[a-zA-Z][\w]+$'
-
 SUPPORTED_EXTENSIONS = {
     'json': json_parser,
     'yaml': yaml_parser,
     'yml': yaml_parser
 }
+
+
+class ConfigError(Exception):
+    pass
+
+
+class ConfigFileNotFoundError(ConfigError):
+    pass
 
 
 class ConfigValue:
@@ -39,6 +30,15 @@ class ConfigValue:
 
     def __iter__(self):
         return self.__dict__.keys().__iter__()
+
+    def __len__(self):
+        return len(self.__dict__)
+
+    def keys(self):
+        return self.__dict__.keys()
+
+    def values(self):
+        return self.__dict__.values()
 
 
 class Config:
@@ -147,15 +147,3 @@ class Config:
         if variable[0] == '{':
             return variable[1:-1]
         return variable
-
-
-class ConfigError(Exception):
-    pass
-
-
-class ConfigFileDecodeError(ConfigError):
-    pass
-
-
-class ConfigFileNotFoundError(ConfigError):
-    pass
