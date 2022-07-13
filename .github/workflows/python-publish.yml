@@ -9,9 +9,10 @@
 name: Upload Python Package
 
 on:
-  push:
-    tags:
-      - 'v**'
+  workflow_run:
+    workflows: ["version"]
+    types:
+      - completed
 
 permissions:
   contents: read
