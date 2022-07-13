@@ -1,11 +1,12 @@
 import setuptools
+import os
 
 with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
     name='python-config-parser',
-    version='2.2.1',
+    version=os.environ['RELEASE_VERSION'],
     author='Bruno Silva de Andrade',
     author_email='brunojf.andrade@gmail.com',
     description='Project created to given the possibility of create dynamics config files',
