@@ -12,7 +12,7 @@ MAIN FEATURES
 ===
 ---
 * Declarative configurations without using .ini files
-* Access OOP or subscriptable, which means that you can iterate the config object items
+* Access using OOP or subscriptable, which means that you can iterate the config object items
 * Runtime validation using [schema](https://github.com/keleshev/schema)
 * Automatic environment variables interpolation
 * Automatic parser selecting by config file extension
@@ -105,21 +105,23 @@ This config file as a json would be something like:
 ```
 
 The instance of Config Class:
+
 ```python
-from pyconfigparser import Config, ConfigError
+from pyconfigparser import Configparser, ConfigError
 import logging
 
 try:
-    config = Config.get_config(SCHEMA_CONFIG) # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
+    config = Configparser.get_config(
+        SCHEMA_CONFIG)  # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
 except ConfigError as e:
     print(e)
     exit()
 
-#to access your config you need just:
+# to access your config you need just:
 
 
-fmt = config.core.logging.format #look this, at this point I'm already using the config variable
-date_fmt = config['core']['logging']['date_fmt'] #here subscriptable access
+fmt = config.core.logging.format  # look this, at this point I'm already using the config variable
+date_fmt = config['core']['logging']['date_fmt']  # here subscriptable access
 
 logging.getLogger(__name__)
 
@@ -129,19 +131,18 @@ logging.basicConfig(
     level=logging.INFO
 )
 
-#the list of object example:
+# the list of object example:
 
 for client in config.core.allowed_clients:
     print(client.ip)
     print(client.timeout)
 
-    
-#The config object's parts which is not a list can also be itered but, it'll give you the attribute's names
-#So you can access the values by subscriptale access
+# The config object's parts which is not a list can also be itered but, it'll give you the attribute's names
+# So you can access the values by subscriptale access
 for logging_section_attr_key in config.core.logging:
     print(config.core.logging[logging_section_attr_key])
 
-#Accessing the environment variable already resolved
+# Accessing the environment variable already resolved
 print(config.random_env_variable)
 
 ```
@@ -149,18 +150,17 @@ Since you've already created the first Config's instance this instance will be c
 so after this first creation you can just invoke Config.get_config()
 
 ```python
-from pyconfigparser import Config
+from pyconfigparser import Configparser
 
-config = Config.get_config() #At this point you already have the configuration properties in your config object
+config = Configparser.get_config()  # At this point you already have the configuration properties in your config object
 ```
 
 You can also disable the action to cache the instance config
 
-
 ```python
-from pyconfigparser import Config
+from pyconfigparser import Configparser
 
-Config.set_hold_an_instance(False)
+Configparser.hold_an_instance = False
 ```
 
 
