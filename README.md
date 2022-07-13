@@ -107,12 +107,11 @@ This config file as a json would be something like:
 The instance of Config Class:
 
 ```python
-from pyconfigparser import Configparser, ConfigError
+from pyconfigparser import configparser, ConfigError
 import logging
 
 try:
-    config = Configparser.get_config(
-        SCHEMA_CONFIG)  # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
+    config = configparser.get_config(SCHEMA_CONFIG)  # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
 except ConfigError as e:
     print(e)
     exit()
@@ -150,17 +149,17 @@ Since you've already created the first Config's instance this instance will be c
 so after this first creation you can just invoke Config.get_config()
 
 ```python
-from pyconfigparser import Configparser
+from pyconfigparser import configparser
 
-config = Configparser.get_config()  # At this point you already have the configuration properties in your config object
+config = configparser.get_config()  # At this point you already have the configuration properties in your config object
 ```
 
 You can also disable the action to cache the instance config
 
 ```python
-from pyconfigparser import Configparser
+from pyconfigparser import configparser
 
-Configparser.hold_an_instance = False
+configparser.hold_an_instance = False
 ```
 
 
