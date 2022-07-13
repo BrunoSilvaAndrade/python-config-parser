@@ -1,12 +1,11 @@
-Python-config-parser
+python-config-parser
 ===
 ---
 [![Tests](https://github.com/BrunoSilvaAndrade/python-config-parser/actions/workflows/tests.yml/badge.svg)](https://github.com/BrunoSilvaAndrade/python-config-parser/actions/workflows/tests.yml)
 [![PyPI version](https://badge.fury.io/py/python-config-parser.svg)](https://badge.fury.io/py/python-config-parser)
 [![Coverage Status](https://coveralls.io/repos/github/BrunoSilvaAndrade/python-config-parser/badge.svg)](https://coveralls.io/github/BrunoSilvaAndrade/python-config-parser)
 
-This project was created to give you the possibility
-of creating runtime configuration objects using json or yaml files.
+python-config-parser lets you create runtime configuration objects using json or yaml files.
 
 MAIN FEATURES
 ===
@@ -20,7 +19,7 @@ MAIN FEATURES
 HOW TO INSTALL
 ===
 ---
-Use pip to install it.
+Use `pip` to install it.
 
 ```shell
 pip install python-config-parser
@@ -29,21 +28,16 @@ pip install python-config-parser
 HOW TO USE
 ===
 ---
-First of all the config file will look for default config files if you do not pass your own config file for this.
+By default, the config file will look for the following config files in the `.config` directory: `config.json`, `config.yaml`, `config.yml`.
 
-The default config directory is ./config(if you do not pass the config directory of your preference) assuming your current directory.
+You can also pass a config directory of your preference (assuming your current directory).
 
-The default config files names are -> (config.json, config.yaml, config.yml)
-
-
-
-
-The Schema validation.
+Schema validation
 ---
 
-You may use or not schema validation, if you want to use it, it will validate your whole config object before returning it.
+You may or may not use schema validation. If you want to use it, it will validate the whole config object before returning it.
 
-If you don't want to use it, it won't validate the config object before returning that, and it may generate runtime access inconsistencies.
+If you choose not to use it, it won't validate the config object before returning it, and it may generate runtime access inconsistencies.
 
 How to use schema
 
@@ -67,7 +61,7 @@ SCHEMA_CONFIG = {
 
 ```
 
-The config.yml file
+The `config.yml` file
 ```yaml
 core:
   random_env_variable: ${RANDOM_ENV_VARIABLE}
@@ -80,7 +74,7 @@ core:
   - ip: 192.168.0.11
     timeout: 100
 ```
-This config file as a json would be something like:
+A json config file would be something like:
 
 ```json
 {
@@ -105,7 +99,6 @@ This config file as a json would be something like:
 ```
 
 The instance of Config Class:
-
 ```python
 from pyconfigparser import Configparser, ConfigError
 import logging
@@ -119,9 +112,8 @@ except ConfigError as e:
 
 # to access your config you need just:
 
-
-fmt = config.core.logging.format  # look this, at this point I'm already using the config variable
-date_fmt = config['core']['logging']['date_fmt']  # here subscriptable access
+fmt = config.core.logging.format # look this, at this point I'm already using the config variable
+date_fmt = config['core']['logging']['date_fmt'] # here subscriptable access
 
 logging.getLogger(__name__)
 
@@ -136,7 +128,7 @@ logging.basicConfig(
 for client in config.core.allowed_clients:
     print(client.ip)
     print(client.timeout)
-
+    
 # The config object's parts which is not a list can also be itered but, it'll give you the attribute's names
 # So you can access the values by subscriptale access
 for logging_section_attr_key in config.core.logging:
@@ -157,12 +149,12 @@ config = Configparser.get_config()  # At this point you already have the configu
 
 You can also disable the action to cache the instance config
 
+
 ```python
 from pyconfigparser import Configparser
 
 Configparser.hold_an_instance = False
 ```
-
 
 CONTRIBUTE
 ---
