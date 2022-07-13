@@ -41,7 +41,7 @@ class Config:
         return self.__dict__.values()
 
 
-class configparser:
+class Configparser:
     def __init__(self):
         self.__instance = None
         self.__hold_an_instance = True
@@ -145,4 +145,4 @@ class configparser:
         return variable
 
 
-configparser = configparser()
+configparser = Configparser()
