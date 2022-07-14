@@ -30,7 +30,13 @@ HOW TO USE
 ---
 By default, the config file will look for the following config files in the `.config` directory: `config.json`, `config.yaml`, `config.yml`.
 
-You can also pass a config directory of your preference (assuming your current directory).
+You can also pass a config directory and or config file of your preference (assuming your current directory).
+
+```python
+from pyconfigparser import configparser
+
+configparser.get_config(CONFIG_SCHEMA, config_dir='your_config_dir_path', file_name='your_config_file_name')
+```
 
 Schema validation
 ---
@@ -98,7 +104,7 @@ A json config file would be something like:
 }
 ```
 
-The instance of Config Class:
+The config instance
 ```python
 from pyconfigparser import configparser, ConfigError
 import logging
@@ -153,6 +159,18 @@ You can also disable the action to cache the instance config
 from pyconfigparser import configparser
 
 configparser.hold_an_instance = False
+```
+
+Environment Variables Interpolation
+---
+If the process does not find a value already set to your env variables
+It will raise a ConfigError. But you can disable this behavior, and the parser will set `None` to these unresolved env vars
+
+```python
+from pyconfigparser import configparser
+
+configparser.ignore_unset_env_vars = True
+config = configparser.get_config()
 ```
 
 CONTRIBUTE
