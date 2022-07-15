@@ -45,6 +45,7 @@ class ConfigParser:
     def __init__(self):
         self.__instance = None
         self.__hold_an_instance = True
+        self.__ignore_unsetted_env_vars = False
 
     @property
     def hold_an_instance(self):
@@ -56,15 +57,22 @@ class ConfigParser:
             raise ValueError('value must be a bool')
         self.__hold_an_instance = value
 
-    def get_config(self, schema: dict = None, config_dir: str = 'config', file_name: Any = DEFAULT_CONFIG_FILES):
+    @property
+    def ignore_unset_env_vars(self):
+        return self.__ignore_unsetted_env_vars
 
-        if self.__instance is None:
-            instance = self.__create_new_instance(schema, config_dir, file_name)
-            if self.__hold_an_instance:
-                self.__instance = instance
-            else:
-                return instance
-        return self.__instance
+    @ignore_unset_env_vars.setter
+    def ignore_unset_env_vars(self, value):
+        if type(value) is not bool:
+            raise ValueError('value must be a bool')
+        self.__ignore_unsetted_env_vars = value
+
+    def get_config(self, schema: dict = None, config_dir: str = 'config', file_name: Any = DEFAULT_CONFIG_FILES):
+        if self.__hold_an_instance:
+            if self.__instance is None:
+                self.__instance = self.__create_new_instance(schema, config_dir, file_name)
+            return self.__instance
+        return self.__create_new_instance(schema, config_dir, file_name)
 
     def __create_new_instance(self, schema, config_dir, file_name):
         file_path = self.__get_file_path(config_dir, file_name)
@@ -125,18 +133,20 @@ class ConfigParser:
                 return self.__interpol_variable(data)
             return data
 
+    def __interpol_variable(self, data):
+        try:
+            return os.environ[self.__extract_env_variable_key(data)]
+        except KeyError:
+            if self.__ignore_unsetted_env_vars:
+                return None
+            raise ConfigError(f'Environment variable {data} was not found')
+
     def __is_a_valid_object_key(self, key):
         if re.search(ENTITY_NAME_PATTERN, key) is None:
             raise ConfigError(f'The key {key} is invalid. The entity keys only may have words, number and underscores.')
 
     def __is_variable(self, data):
         return type(data) is str and re.search(VARIABLE_PATTERN, data) is not None
-
-    def __interpol_variable(self, data):
-        try:
-            return os.environ[self.__extract_env_variable_key(data)]
-        except KeyError:
-            raise ConfigError(f'Environment variable {data} was not found')
 
     def __extract_env_variable_key(self, variable):
         variable = variable[1:]
