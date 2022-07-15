@@ -142,11 +142,11 @@ class ConfigParser:
             raise ConfigError(f'Environment variable {data} was not found')
 
     def __is_a_valid_object_key(self, key):
-        if re.search(ENTITY_NAME_PATTERN, key) is None:
+        if not re.search(ENTITY_NAME_PATTERN, key):
             raise ConfigError(f'The key {key} is invalid. The entity keys only may have words, number and underscores.')
 
     def __is_variable(self, data):
-        return type(data) is str and re.search(VARIABLE_PATTERN, data) is not None
+        return type(data) is str and re.search(VARIABLE_PATTERN, data)
 
     def __extract_env_variable_key(self, variable):
         variable = variable[1:]
