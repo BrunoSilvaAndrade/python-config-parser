@@ -5,6 +5,7 @@ import json
 import yaml
 import os
 import re
+from collections.abc import Mapping
 
 __all__ = [
     "ConfigError",
@@ -106,7 +107,7 @@ _SUPPORTED_EXTENSIONS = {
 }
 
 
-class Config:
+class Config(Mapping):
 
     def __getitem__(self, item):
         return self.__dict__[item]
@@ -116,12 +117,6 @@ class Config:
 
     def __len__(self):
         return len(self.__dict__)
-
-    def keys(self):
-        return self.__dict__.keys()
-
-    def values(self):
-        return self.__dict__.values()
 
 
 class ConfigParser:
