@@ -14,7 +14,7 @@ MAIN FEATURES
 * Access using OOP or subscriptable, which means that you can iterate the config object items
 * Runtime validation using [schema](https://github.com/keleshev/schema)
 * Automatic environment variables interpolation
-* Automatic parser selecting by config file extension
+* Automatic parser selecting using config file extension
 
 HOW TO INSTALL
 ===
@@ -28,10 +28,9 @@ pip install python-config-parser
 HOW TO USE
 ===
 ---
-By default, the config file will look for the following config files in the `.config` directory: `config.json`, `config.yaml`, `config.yml`.
 
-You can also pass a config directory and or config file of your preference (assuming your current directory).
-
+By default, the config file will look for any of the following config files in the `config` directory: `config.json`/`config.yaml`/`config.yml`.
+You can change the config directory and or config file according to your preference (assuming your current directory).
 ```python
 from pyconfigparser import configparser
 
@@ -41,10 +40,8 @@ configparser.get_config(CONFIG_SCHEMA, config_dir='your_config_dir_path', file_n
 Schema validation
 ---
 
-You may or may not use schema validation. If you want to use it, it will validate the whole config object before returning it.
-
-If you choose not to use it, it won't validate the config object before returning it, and it may generate runtime access inconsistencies.
-
+You may or not use schema validation. If you want to use it, it will validate and apply rules to the whole config object before returning it.
+If you choose to not use it, it won't validate the config object before returning it, and it may generate runtime access inconsistencies.
 How to use schema
 
 ```python
@@ -80,8 +77,8 @@ core:
   - ip: 192.168.0.11
     timeout: 100
 ```
-A json config file would be something like:
 
+A json config file would be something like:
 ```json
 {
   "core": {
@@ -110,14 +107,14 @@ from pyconfigparser import configparser, ConfigError
 import logging
 
 try:
-    config = configparser.get_config(SCHEMA_CONFIG)  # <- Here I'm using that SCHEMA_CONFIG we had declared, and the dir file default value is being used
+    config = configparser.get_config(SCHEMA_CONFIG)  # <- Here I'm using that SCHEMA_CONFIG we've already declared
 except ConfigError as e:
     print(e)
     exit()
 
-# to access your config you need just:
+# to access your config you just need to:
 
-fmt = config.core.logging.format # look this, at this point I'm already using the config variable
+fmt = config.core.logging.format #at this point I'm already using the config variables
 date_fmt = config['core']['logging']['date_fmt'] # here subscriptable access
 
 logging.getLogger(__name__)
@@ -134,8 +131,8 @@ for client in config.core.allowed_clients:
     print(client.ip)
     print(client.timeout)
     
-# The config object's parts which is not a list can also be itered but, it'll give you the attribute's names
-# So you can access the values by subscriptale access
+# You can also iterate objects, but instead of giving the property it'll give you the property's name
+# And then you can access the values by subscriptale access
 for logging_section_attr_key in config.core.logging:
     print(config.core.logging[logging_section_attr_key])
 
@@ -143,18 +140,16 @@ for logging_section_attr_key in config.core.logging:
 print(config.random_env_variable)
 
 ```
-Since you've already created the first Config's instance this instance will be cached inside Config class,
-so after this first creation you can just invoke Config.get_config()
 
+Assuming you've already created the first Config's instance this instance will be cached inside Config class,
+so after this first creation you just need to  re-invoke Config.get_config() without any argument
 ```python
 from pyconfigparser import configparser
 
-config = configparser.get_config()  # At this point you already have the configuration properties in your config object
+config = configparser.get_config()
 ```
 
-You can also disable the action to cache the instance config
-
-
+You can also disable this caching behavior
 ```python
 from pyconfigparser import configparser
 
@@ -163,9 +158,9 @@ configparser.hold_an_instance = False
 
 Environment Variables Interpolation
 ---
+
 If the process does not find a value already set to your env variables
 It will raise a ConfigError. But you can disable this behavior, and the parser will set `None` to these unresolved env vars
-
 ```python
 from pyconfigparser import configparser
 
