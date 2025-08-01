@@ -1,4 +1,4 @@
-from pyconfigparser import ConfigParser, ConfigError, ConfigFileNotFoundError
+from pyconfigparser import ConfigParser, ConfigError, ConfigFileNotFoundError,_is_variable
 from config.schemas import SIMPLE_SCHEMA_CONFIG, UNSUPPORTED_OBJECT_KEYS_SCHEMA
 import unittest
 import os
@@ -91,6 +91,33 @@ class ConfigTestCase(unittest.TestCase):
         self.assertIs(configparser.hold_an_instance, False)
         self.assertIs(configparser.ignore_unset_env_vars, True)
         self.assertIsInstance(configparser.ignore_unset_env_vars, bool)
+
+    def test_variable_pattern_matching(self) -> None:
+        """Test the regex pattern for environment variable matching."""
+
+        valid_env_vars = [
+            "$FOO",
+            "${FOO}",
+            "$My_Var123"
+        ]
+
+        invalid_env_vars = [
+            "FOO",                   # no $
+            "$",                     # missing name
+            "${}",                   # empty braces
+            "$1VAR",                 # starts with number
+            "${1VAR}",               # starts with number in braces
+            "foo$VAR",               # not at start
+            "<L/f\\U<Uj2{.S95@^$Rx"  # random password
+        ]
+
+        for var in valid_env_vars:
+            with self.subTest(var=var):
+                self.assertTrue(_is_variable(var), f"{var} should match")
+
+        for var in invalid_env_vars:
+            with self.subTest(var=var):
+                self.assertFalse(_is_variable(var), f"{var} should not match")
 
 
 if __name__ == '__main__':
