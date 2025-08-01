@@ -1,4 +1,4 @@
-from pyconfigparser import ConfigParser, ConfigError, ConfigFileNotFoundError,_is_variable
+from pyconfigparser import ConfigParser, ConfigError, ConfigFileNotFoundError, _is_variable
 from config.schemas import SIMPLE_SCHEMA_CONFIG, UNSUPPORTED_OBJECT_KEYS_SCHEMA
 import unittest
 import os
