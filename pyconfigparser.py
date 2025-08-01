@@ -97,7 +97,7 @@ def _extract_env_variable_key(variable):
     return variable
 
 
-_VARIABLE_PATTERN = r'\$([a-zA-Z][\w]+|\{[a-zA-Z][\w]+\})$'
+_VARIABLE_PATTERN = r'^\$([a-zA-Z][\w]+|\{[a-zA-Z][\w]+\})$'
 _DEFAULT_CONFIG_FILES = ('config.json', 'config.yaml', 'config.yml')
 _ENTITY_NAME_PATTERN = r'^[a-zA-Z][\w]+$'
 _SUPPORTED_EXTENSIONS = {
